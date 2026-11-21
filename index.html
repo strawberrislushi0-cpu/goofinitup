@@ -1,39 +1,221 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="theme-color" content="#10131b">
-	<title>File Viewer</title>
+	<meta name="theme-color" content="#245edb">
+	<title>Meme Viewer.exe - Windows XP</title>
 	<link rel="stylesheet" href="style.css">
 	<script src="script.js" defer></script>
 </head>
+
 <body>
-	<main class="app">
-		<header class="toolbar">
-			<div>
-				<h1>File Viewer</h1>
-				<p id="status" aria-live="polite">Loading files…</p>
+	<!-- Windows XP desktop wallpaper -->
+	<div class="desktop-wallpaper" aria-hidden="true">
+		<div class="hill hill-back"></div>
+		<div class="hill hill-front"></div>
+	</div>
+
+	<!-- Desktop shortcut -->
+	<div class="desktop-shortcut" aria-hidden="true">
+		<span class="desktop-icon">[M]</span>
+		<span>My Memes</span>
+	</div>
+
+	<!-- Main Windows XP window -->
+	<main class="xp-window">
+
+		<!-- Title bar -->
+		<header class="title-bar">
+			<div class="title-left">
+				<span class="title-icon">[M]</span>
+				<strong>Meme Viewer.exe</strong>
 			</div>
-			<button id="refresh" class="icon-button" title="Refresh files" aria-label="Refresh files">↻</button>
+
+			<div class="window-controls" aria-hidden="true">
+				<span class="window-control minimize">_</span>
+				<span class="window-control maximize">□</span>
+				<span class="window-control close">×</span>
+			</div>
 		</header>
-		<section class="viewer" aria-label="File viewer">
-			<button id="previous" class="nav nav-left" aria-label="Previous file">‹</button>
-			<div id="display" class="display" aria-live="polite">
-				<p class="hint">Loading…</p>
+
+		<!-- Classic Windows XP menu -->
+		<div class="menubar">
+			<span><u>F</u>ile</span>
+			<span><u>E</u>dit</span>
+			<span><u>V</u>iew</span>
+			<span>F<u>a</u>vorites</span>
+			<span><u>T</u>ools</span>
+			<span><u>H</u>elp</span>
+		</div>
+
+		<!-- Navigation toolbar -->
+		<div class="toolbar">
+
+			<button id="previous" class="tool-button">
+				<span class="round-arrow">&larr;</span>
+				<span>Previous Meme</span>
+			</button>
+
+			<button id="next" class="tool-button">
+				<span class="round-arrow forward">&rarr;</span>
+				<span>Next Meme</span>
+			</button>
+
+			<span class="tool-separator"></span>
+
+			<button id="refresh" class="tool-button">
+				<span class="refresh-symbol">&#8635;</span>
+				<span>Refresh Memes</span>
+			</button>
+
+			<div class="toolbar-spacer"></div>
+
+			<!-- Windows-style colored logo made with CSS -->
+			<span class="windows-flag" aria-hidden="true">
+				<i></i>
+				<i></i>
+				<i></i>
+				<i></i>
+			</span>
+		</div>
+
+		<!-- Address bar -->
+		<div class="addressbar">
+			<label>Address</label>
+
+			<div class="address-field">
+				<span class="folder-symbol" aria-hidden="true"></span>
+				<span id="path-text">
+					C:\My Memes\<span id="filename-header">—</span>
+				</span>
 			</div>
-			<button id="next" class="nav nav-right" aria-label="Next file">›</button>
-		</section>
-		<footer class="footer">
-			<div class="file-info">
-				<strong id="filename">—</strong>
+
+			<span class="address-go">
+				Go <span>&rarr;</span>
+			</span>
+		</div>
+
+		<!-- Explorer body -->
+		<div class="explorer-body">
+
+			<!-- Left sidebar -->
+			<aside class="sidebar">
+
+				<div class="sidebar-group">
+					<div class="sidebar-heading">
+						Meme Tasks
+						<span>⌃</span>
+					</div>
+
+					<div class="sidebar-content">
+						<p>View Memes</p>
+						<p>Browse Memes</p>
+						<p>My Meme Collection</p>
+					</div>
+				</div>
+
+				<div class="sidebar-group">
+					<div class="sidebar-heading">
+						Other Places
+						<span>⌃</span>
+					</div>
+
+					<div class="sidebar-content">
+						<p>My Computer</p>
+						<p>My Memes</p>
+						<p>Meme Repository</p>
+					</div>
+				</div>
+
+				<div class="sidebar-group">
+					<div class="sidebar-heading">
+						Meme Details
+						<span>⌃</span>
+					</div>
+
+					<div class="sidebar-content">
+						<strong id="sidebar-filename">
+							My Meme Collection
+						</strong>
+
+						<p id="status" aria-live="polite">
+							Loading memes...
+						</p>
+					</div>
+				</div>
+
+			</aside>
+
+			<!-- Main meme viewer -->
+			<section class="file-viewer">
+				<div
+					id="display"
+					class="display"
+					aria-live="polite"
+				>
+					<p class="hint">Loading memes...</p>
+				</div>
+			</section>
+
+		</div>
+
+		<!-- Bottom status bar -->
+		<footer class="status-bar">
+
+			<div class="status-main">
+				<span id="filename">—</span>
+			</div>
+
+			<div class="status-count">
 				<span id="counter">0 / 0</span>
 			</div>
-			<div class="footer-actions">
-				<a id="open" href="#" target="_blank" rel="noopener noreferrer" hidden>Open original ↗</a>
-				<span class="hint">← → keys, swipe, or scroll to change file</span>
+
+			<div class="status-actions">
+				<a
+					id="open"
+					href="#"
+					target="_blank"
+					rel="noopener noreferrer"
+					hidden
+				>
+					Open Meme
+				</a>
+
+				<span class="hint">
+					Use arrow keys, scroll, or swipe
+				</span>
 			</div>
+
 		</footer>
+
 	</main>
+
+	<!-- Windows XP taskbar -->
+	<div class="taskbar" aria-hidden="true">
+
+		<div class="start-button">
+			<span class="start-logo">
+				<i></i>
+				<i></i>
+				<i></i>
+				<i></i>
+			</span>
+			<strong>start</strong>
+		</div>
+
+		<div class="taskbar-item">
+			<span class="taskbar-icon">[M]</span>
+			Meme Viewer.exe
+		</div>
+
+		<div class="taskbar-fill"></div>
+
+		<div class="system-tray">
+			<span id="clock">12:00 PM</span>
+		</div>
+
+	</div>
 </body>
 </html>
