@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#10131b">
+	<title>File Viewer</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<main class="app">
+		<header class="toolbar">
+			<div>
+				<h1>File Viewer</h1>
+				<p id="status" aria-live="polite">Loading files…</p>
+			</div>
+			<button id="refresh" class="icon-button" title="Refresh files" aria-label="Refresh files">↻</button>
+		</header>
+		<section class="viewer" aria-label="File viewer">
+			<button id="previous" class="nav nav-left" aria-label="Previous file">‹</button>
+			<div id="display" class="display" aria-live="polite">
+				<p class="hint">Loading…</p>
+			</div>
+			<button id="next" class="nav nav-right" aria-label="Next file">›</button>
+		</section>
+		<footer class="footer">
+			<div class="file-info">
+				<strong id="filename">—</strong>
+				<span id="counter">0 / 0</span>
+			</div>
+			<div class="footer-actions">
+				<a id="open" href="#" target="_blank" rel="noopener noreferrer" hidden>Open original ↗</a>
+				<span class="hint">← → keys, swipe, or scroll to change file</span>
+			</div>
+		</footer>
+	</main>
+</body>
+</html>
