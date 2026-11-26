@@ -1,3 +1,4 @@
+
 const OWNER = "strawberrislushi0-cpu";
 const REPO = "goofinitup";
 const BRANCH = "main";
@@ -29,7 +30,65 @@ function makeElement(tag, attributes = {}) {
 	return node;
 }
 
+// Stop currently playing media
+function stopMedia() {
+	display.querySelectorAll("video, audio").forEach(media => {
+		media.pause();
+		media.removeAttribute("src");
+		media.load();
+	});
+}
+
+// Automatically play media
+async function playMedia(node, token) {
+	if (!(node instanceof HTMLMediaElement)) return;
+	if (token !== renderToken) return;
+
+	try {
+		await node.play();
+	} catch (error) {
+		if (token !== renderToken) return;
+
+		// Fall back to muted autoplay if sound is blocked
+		if (
+			node instanceof HTMLVideoElement &&
+			error.name === "NotAllowedError"
+		) {
+			node.muted = true;
+
+			try {
+				await node.play();
+			} catch {
+				// Native playback controls remain available
+			}
+		}
+	}
+}
+
+// Retry blocked playback after user interaction
+function unlockPlayback() {
+	const media = display.querySelector("video, audio");
+
+	if (!media) return;
+
+	if (media.muted) {
+		media.muted = false;
+	}
+
+	if (media.paused) {
+		playMedia(media, renderToken);
+	}
+}
+
+window.addEventListener("pointerdown", event => {
+	if (!event.target.closest("video, audio")) {
+		unlockPlayback();
+	}
+}, { once: true });
+
 function showMessage(message) {
+	stopMedia();
+
 	display.replaceChildren(
 		makeElement("p", {
 			className: "hint",
@@ -41,6 +100,9 @@ function showMessage(message) {
 async function showFile() {
 	const token = ++renderToken;
 	const item = files[index];
+
+	// Stop previous media immediately
+	stopMedia();
 
 	previous.disabled = files.length < 2;
 	next.disabled = files.length < 2;
@@ -82,24 +144,28 @@ async function showFile() {
 		});
 	}
 
-	// Videos
+	// Videos with autoplay
 	else if ([
 		"mp4", "webm", "ogv", "mov"
 	].includes(ext)) {
 		node = makeElement("video", {
 			src: url,
 			controls: true,
-			playsInline: true
+			playsInline: true,
+			autoplay: true,
+			preload: "auto"
 		});
 	}
 
-	// Audio
+	// Audio with autoplay
 	else if ([
 		"mp3", "wav", "ogg", "m4a", "flac"
 	].includes(ext)) {
 		node = makeElement("audio", {
 			src: url,
-			controls: true
+			controls: true,
+			autoplay: true,
+			preload: "auto"
 		});
 	}
 
@@ -139,6 +205,7 @@ async function showFile() {
 			showMessage(
 				"Could not preview this file. Use Open original."
 			);
+
 			return;
 		}
 	}
@@ -153,6 +220,9 @@ async function showFile() {
 
 	if (token === renderToken) {
 		display.replaceChildren(node);
+
+		// Autoplay newly displayed media
+		playMedia(node, token);
 	}
 }
 
@@ -229,6 +299,8 @@ async function loadFiles() {
 		showFile();
 
 	} catch (error) {
+		++renderToken;
+
 		status.textContent = "Could not load files";
 		showMessage(error.message);
 
@@ -327,5 +399,5 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 30000);
 
-// Initial loading
+// Initial loading with autoplay
 loadFiles();
